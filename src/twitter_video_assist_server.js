@@ -9,11 +9,13 @@ browser.runtime.onMessage.addListener(processRequest)
 function processRequest(request) {
     switch (request.type) {
         case 'video':
-            processVideoSource(request)
+            browser.tabs.create({ url: request.videoSource })
+            // processVideoSource(request)
             break
 
         case 'image':
-            downloadImage(request.url, request.readableName)
+            browser.tabs.create({ url: request.url })
+            // downloadImage(request.url, request.readableName)
             break
     }
 }

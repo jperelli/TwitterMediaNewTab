@@ -149,7 +149,14 @@ function downloadVideoObject(tweet, tweetSelector, videoTag) {
         videoSource = tweet.find('source')[0].src
     }
 
-    browser.tabs.create({ url: videoSource });
+    browser.runtime.sendMessage({
+        type: 'video',
+        videoSource: videoSource,
+        tweetId: getTweetId(tweet, tweetSelector),
+        readerableFilename: readerableFilename(tweet, tweetSelector),
+        tweetSelector: tweetSelector,
+        token: getCookie("ct0")
+    })
 }
 
 function downloadImageObject(tweet, tweetSelector, imageTags) {
@@ -169,7 +176,7 @@ function downloadImageObject(tweet, tweetSelector, imageTags) {
             }
             const index = getTweetIndex($(element).parents('a')[0].href)
 
-            browser.tabs.create({ url: videoSource });
+            processImageDownload(src, readerableFilename(tweet, tweetSelector, index))
         }
     })
 }
